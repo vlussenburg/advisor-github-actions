@@ -17,14 +17,10 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+    
+    - name: Kind Cluster
+      uses: helm/kind-action@v1.0.0-rc.1
 
-    - name: Write kube config from secret to file
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      run: |
-        echo "${KUBE_CONFIG_DATA}" | base64 --decode > /tmp/config
-        echo "::set-env name=KUBECONFIG::/tmp/config"
-  
     - name: Scan Cluster
       uses: alcideio/advisor-action@v1.1.0   
       with:
